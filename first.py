@@ -12,8 +12,6 @@ class MyWidget(QMainWindow):
         uic.loadUi("main.ui", self)
         self.con = sqlite3.connect("coffee.sqlite3")
         self.pushButton.clicked.connect(self.update_result)
-        self.tableWidget.itemChanged.connect(self.item_changed)
-        self.pushButton_2.clicked.connect(self.save_results)
         self.modified = {}
         self.titles = None
 
@@ -38,22 +36,6 @@ class MyWidget(QMainWindow):
                 self.tableWidget.setItem(i, j, QTableWidgetItem(str(val)))
         self.modified = {}
 
-    def item_changed(self, item):
-        # Если значение в ячейке было изменено,
-        # то в словарь записывается пара: название поля, новое значение
-        self.modified[self.titles[item.column()]] = item.text()
-
-    def save_results(self):
-        if self.modified:
-            cur = self.con.cursor()
-            que = "UPDATE films SET\n"
-            que += ", ".join([f"{key}='{self.modified.get(key)}'"
-                              for key in self.modified.keys()])
-            que += "WHERE id = ?"
-            print(que)
-            cur.execute(que, (self.spinBox.text(),))
-            self.con.commit()
-            self.modified.clear()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
