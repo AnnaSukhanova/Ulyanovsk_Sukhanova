@@ -1,6 +1,5 @@
 import sqlite3
 import sys
-sys.excepthook = lambda *a: sys.__excepthook__(*a)
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
